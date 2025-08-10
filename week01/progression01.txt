@@ -8,3 +8,9 @@ Week1 - Project Library Explorer
 - Generate mock Data (data.js)
 - refactor(PaginationUtils.js) จากตอนแรกที่เขียนไว้ใน listAllBook โดยให้ Ai Refactor และแยกออกมาเป็น utils ให้ เพื่อที่จะนำไป reuse กับ function อื่นๆได้
 - format I/O ต่างๆ เช่น ======, หรือประโยคต่างๆ
+
+Reflex
+- ได้ทบทวนการทำ Pagination ด้วย js
+- ทบทวนการเขียน Cli App ใน js
+- การเขียน code แบบ modular เพื่อให้ง่ายต่อการ maintenance และ reuse
+- การ validate code จาก AI 
