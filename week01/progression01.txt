@@ -1,1 +1,10 @@
 Week1 - Project Library Explorer
+
+รายละเอียด
+- Project นี้ชื่อว่า Project Library Explorer 
+- feature ที่มี 1. ListAllBook(แสดงหนังสือทั้งหมด), 2. searchBook(ค้นหาหนังสือ)
+
+จุดที่ใช้ AI
+- Generate mock Data (data.js)
+- refactor(PaginationUtils.js) จากตอนแรกที่เขียนไว้ใน listAllBook โดยให้ Ai Refactor และแยกออกมาเป็น utils ให้ เพื่อที่จะนำไป reuse กับ function อื่นๆได้
+- format I/O ต่างๆ เช่น ======, หรือประโยคต่างๆ
