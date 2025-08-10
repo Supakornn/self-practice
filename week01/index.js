@@ -12,6 +12,17 @@ const menulist = [
         id: "2",
         name: "Search Book",
         action: searchBook
+    },
+    {
+        id: "3",
+        name: "Exit",
+        action: () => {
+            console.log("================================");
+            console.log("Thank you for using our library system!");
+            console.log("Please come again!");
+            console.log("================================");
+            process.exit(0);
+        }
     }
 ];
 
