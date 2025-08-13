@@ -1,0 +1,32 @@
+Week2 - Object comparison in JavaScript
+
+รายละเอียด:
+- วิธีการเปรียบเทียบ Oject ว่ามีค่าเท่ากันหรือไม่ในภาษา JavaScript ด้วย วิธีต่างๆ
+
+วิธีที่ 1 - Shallow Equlity:
+- 1. ดึง Keys ทั้งหมดที่มีใน Object ของทั้ง 2 Object ที่ต้องการจะเปรียบเทียบออกมาก่อน ด้วย Object.Keys() -> ผลลัพธ์จะ return Array ของ Key ออกมา
+- 2. เช็คว่าจำนวนของ Keys ของทั้ง 2 Object มีค่าเท่ากันหรือไม่ ถ้าไม่จะ return false ทันที
+- 3. Loop เช็คค่า Value ของทุก Key ในทั้ง 2 Object เพื่อเอามาเปรียบเทียบกัน (object1[key] !== object2[key]) โดยที่ถ้ามี Value ของ Key ใด Key หนึ่งที่ค่าไม่เท่ากันจะ return false ทันที
+ข้อดี:
+- เขียนโค้ดสั้น, เข้าใจง่าย และไม่ซับซ้อน 
+ข้อเสีย:
+- เช็คได้แค่ Object ที่อยู่ชั้นแรกสุด ถ้ามี Object ซ้อน Object จะไม่สามารถเปรียบเทียบ object ชั้นในได้
+
+วิธีที่ 2 - Deep Equlity: คล้ายๆ Shallow Equlity แค่มีการเช็คชั้นข้างในด้วย(recursion)
+- 1. ดึง Keys ทั้งหมดที่มีใน Object ของทั้ง 2 Object ที่ต้องการจะเปรียบเทียบออกมาก่อน ด้วย Object.Keys() -> ผลลัพธ์จะ return Array ของ Key ออกมา
+- 2. เช็คว่าจำนวนของ Keys ของทั้ง 2 Object มีค่าเท่ากันหรือไม่ ถ้าไม่จะ return false ทันที 
+- 3. Loop เช็คค่า Value ของทุก Key ในทั้ง 2 Object ถ้าเจอ Value ที่เป็น Object(typeof object1[key] === "object" && typeof object2[key] === "object") จะเรียกใช้ function ตัวเอง(recursion) เพื่อโยน Object ชั้นในเข้าไปเปรียบเทียบว่ามีค่าเท่ากันหรือไม่ 
+- 4. เช็ค Value ของทุก Key ในทั้ง 2 Object(ชั้นนอกสุด) เพื่อเอามาเปรียบเทียบกัน
+ข้อดี:
+- สามารถเช็ค object ที่อยู่ชั้นในลงไปเรื่อยได้
+ข้อเสีย:
+- ค่อนข้างซับซ้อน
+
+วิธีที่ 3 - JSON.stringify():
+- 1. แปลง Object ทั้ง 2 ตัว ให้เป็น Json ด้วย JSON.stringify()
+- 2. เปรียบเทียบด้วย === เพื่อเช็คว่าเท่ากันหรือไม่
+ข้อดี:
+- เข้าใจง่าย เขียนโค้ดสั้นที่สุด
+ข้อเสีย:
+- ไม่สามารถเปรียบเทียบ Object ที่มี function, symbol หรือ undefined ได้ เพราะ JSON.stringify() จะไม่สนใจค่าพวกนี้ ทำให้ผลลัพธ์ของ json string ที่ได้จะไม่มี function, symbol, undefined(ทำให้เกิด bug ในโปรแกรมได้)
+- ถ้า Object ใหญ่มากๆ performance จะไม่ดี เพราะต้องแปลง object ทั้งก้อนให้เป็น string ก่อน
