@@ -1,0 +1,52 @@
+Singleton in JS
+
+Singleton คือ Design Pattern รูปแบบหนึ่ง ที่ต้องการทำให้ Object หรือ Class นั้นๆ 
+สร้าง Instance ได้เแค่ครั้งเดียวในโปรแกรม และทุกครั้งที่มีการเรียกใช้งาน จะได้ Instance เดิม
+เพื่อให้จัดการง่าย maintaince ง่าย และประหยัด resource
+
+หลักการทำงาน 
+function once(fn) {
+    let called = false;
+    let result;
+    return function () {
+        if (!called) {
+            called = true;
+            result = fn()
+        }
+        return result;
+    };
+}
+
+function once จะทำหน้าที่เป็น wrapper คอยเก็บ state ของ function ที่เราต้องการจะทำ sigleton โดยจะรับ function มาเป็น parameter และเช็คว่า ได้ถูกเรียกใช้งานไปหรือยัง
+ถ้าถูกเรียกใช้งานไปแล้วก่อนหน้านี้ จะ return function ออกไป โดยใน function จะ return result ออกไปเลยทันที จะไม่ทำการ execute function ซ้ำอีกรอบ
+แต่ถ้า function ยังไม่เคยถูกเรียกใช้งาน จะ return function ออกไป โดยภายใน function นั้นจะทำการ แก้ไข state called ให้เป็น true และ execute function และเก็บ ผลลัพธ์ของ function ไว้ใน result
+
+ตัวอย่างการใช้งาน
+const fetchApi = () => {
+    console.log("Fetching api");
+    return {
+        status: "success",
+        data: {
+            id: Math.random()
+        }
+    };
+};
+
+const getData = once(fetchApi);
+
+สร้าง function fetchApi ขึ้นมาเพื่อจำลองการ fetch api
+โดยจะทำการ เรียกใช้ function once และส่ง function fetchApi เข้าไปเป็น arguemnt
+- function once จะ return reference ของ function ที่ถูกสร้างภายในออกมาให้ และเก็บไว้ในตัวแปร getData
+
+Testing
+const data1 = getData();
+const data2 = getData();
+
+console.log(data1);
+console.log(data2);
+console.log(data1 === data2); // true
+
+- Call function getData() 2 รอบ เก็บไว้ใน data1, data2
+- ถ้า log data1 และ data2 ออกมาจะเห็นว่า ทั้ง 2 ตัวแปรมีข้อมูลเหมือนกัน 100%
+- และถ้าลองเปรียบเทียบ object ทั้ง 2 อันนี้ดูด้วย === จะได้ผลเป็น true เพราะว่ามันคือ object ตัวเดียวกัน
+- เป็นผลลัพธ์การการ call ครั้งแรก ทำให้การ call ครั้งที่ 2 ไม่ถูก execute และมันเอาผลลัพธ์จากการ call ครั้งแรกมาแทน
