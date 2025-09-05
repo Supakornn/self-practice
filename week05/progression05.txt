@@ -1,0 +1,50 @@
+myOwnFetch
+
+การที่ FrontEnd จะคุยกับ Backend ได้ จะมี API มาเป็นตัวคั่นกลาง ซึ่ง FrontEnd ต้องสื่อสารกับ API เพื่อขอข้อมูลหรือจัดการกับข้อมูล
+โดย built-in Node.js จะมี Fetch มาให้ใช้สำหรับการทำงานกับ API อยู่แล้ว
+
+แต่ผมจะสร้างมันขึ้นมาเอง
+โดย ผมใช้ net(http), tls(https) สำหรับการจัดการการสื่อสารผ่าน network(tcp) และเขียน function การ get Data จาก API ขึ้นมาเอง
+
+return new Promise((resolve, reject) => {
+    const connectionModule = useHttps ? tls : net;
+    const client = connectionModule.connect({ host, port }, () => {
+        client.write(`GET ${path} HTTP/1.1\r\n`);
+        client.write(`Host: ${host}\r\n`);
+        client.write(`Connection: close\r\n`);
+        client.write(`\r\n`);
+    });
+
+    let data = "";
+    client.on("data", (chunk) => (data += chunk));
+    client.on("end", () => {
+        const [header, body] = data.split("\r\n\r\n");
+        resolve({ header, body });
+    });
+
+    client.on("error", reject);
+});
+
+1. โค้ดนี้จะ return Promise ออกไป เพื่อให้เป็น asynchronous จะได้สามารถเรียกใช้ .then() หรือ await ได้
+2. const connectionModule = useHttps ? tls : net; // เลือกว่าจะใช้ net หรือ tls (ถ้าใช้ http จะใช้ net แต่ถ้า https จะใช้ tls)
+3. const client = connectionModule.connect({ host, port }, () => {}) // เปิด TCP/TLS connection ไปที่ target host
+4. client.write(`GET ${path} HTTP/1.1\r\n`); // เขียน HTTP Header -> GET เพื่อข้อข้อมูลจาก endPoint ด้วย HTTP/1.1 
+   client.write(`Host: ${host}\r\n`); // บอกว่าให้ขอข้อมูลจาก Host ไหน
+   client.write(`Connection: close\r\n`); // ปิด connection หลังจากส่ง response 
+   client.write(`\r\n`); // จบ header 
+5. client.on("data", (chunk) => (data += chunk)); // ทุกครั้งที่ server ตอบกลับมาเอา chunk ที่ได้ ต่อเข้ากับ data เรื่อยๆ
+6. client.on("end", () => { 
+        const [header, body] = data.split("\r\n\r\n"); // ถ้า connection ปิดแล้ว split ส่วน header กับ body ออกจากกัน
+        resolve({ header, body }); // return object ออกไป
+    });
+    client.on("error", reject); // ถ้า error ก็ reject ทันที
+
+Test กับการใช้จริง
+myOwnFetch("potterapi-fedeperin.vercel.app", "/en/houses", 443, true)
+    .then((res) => {
+        // console.log("Headers:\n", res.header);
+        console.log("Body:\n", res.body);
+    })
+    .catch((error) => {
+        console.error("Error:", error.message);
+    });
