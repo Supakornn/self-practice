@@ -1,0 +1,7 @@
+Progression Week01-05
+
+Week 1: Project Library Explorer – เรียนรู้ pagination, modular code, validate code
+Week 2: Object Comparison in JS – Shallow (ชั้นบนสุด), Deep (recursion), JSON.stringify(). เรียนรู้ข้อดี-ข้อเสียแต่ละวิธี
+Week 3: Singleton in JS – ใช้ once(fn) ให้สร้าง instance ครั้งเดียว, ประหยัด resource, maintaince ง่าย
+Week 4: LeetCode Practice – Median of Two Sorted Arrays, ฝึก algorithm และ problem-solving
+Week 5: myOwnFetch – สร้าง fetch ของตัวเองใน Node.js ใช้ net/tls, Promise, อ่าน HTTP response, แยก header/body, handle error. เรียนรู้ low-level HTTP, TCP/TLS, custom fetch
