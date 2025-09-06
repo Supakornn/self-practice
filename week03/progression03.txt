@@ -1,4 +1,4 @@
-Singleton in JS
+Week3 - Singleton in JS
 
 Singleton คือ Design Pattern รูปแบบหนึ่ง ที่ต้องการทำให้ Object หรือ Class นั้นๆ 
 สร้าง Instance ได้เแค่ครั้งเดียวในโปรแกรม และทุกครั้งที่มีการเรียกใช้งาน จะได้ Instance เดิม

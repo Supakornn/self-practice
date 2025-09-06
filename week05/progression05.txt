@@ -1,4 +1,4 @@
-myOwnFetch
+Week5 - myOwnFetch
 
 การที่ FrontEnd จะคุยกับ Backend ได้ จะมี API มาเป็นตัวคั่นกลาง ซึ่ง FrontEnd ต้องสื่อสารกับ API เพื่อขอข้อมูลหรือจัดการกับข้อมูล
 โดย built-in Node.js จะมี Fetch มาให้ใช้สำหรับการทำงานกับ API อยู่แล้ว
